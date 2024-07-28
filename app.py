@@ -38,18 +38,22 @@ else:
     logger.error(f"sentence_storage.json not found at {os.path.abspath(sentence_storage_path)}")
     sentence_storage = {}
 
-
+# Define constants
+HUMAN_PROMPT = "\n\nHuman: "
+AI_PROMPT = "\n\nAssistant: "
 def process_with_anthropic(query, raw_results):
-    prompt = f"{HUMAN_PROMPT} Based on the following query and raw results, provide a concise and informative answer. Synthesize the information and present it clearly. Ignore any irrelevant metadata or bibliographic information.\n\nQuery: {query}\n\nRaw Results:\n{raw_results}\n\n{AI_PROMPT}"
+    prompt = f"{HUMAN_PROMPT}Based on the following query and raw results, provide a concise and informative answer. Synthesize the information and present it clearly. Ignore any irrelevant metadata or bibliographic information.\n\nQuery: {query}\n\nRaw Results:\n{raw_results}{AI_PROMPT}"
 
-    response = anthropic.completions.create(
-        model="claude-2",
-        max_tokens_to_sample=300,
-        prompt=prompt
+    client = anthropic.Anthropic()
+    message = client.messages.create(
+        model="claude-3-opus-20240229",
+        max_tokens=300,
+        messages=[
+            {"role": "user", "content": prompt}
+        ]
     )
 
-    return response.completion
-
+    return message.content[0].text
 @app.route('/query', methods=['POST'])
 def query_books():
     try:
