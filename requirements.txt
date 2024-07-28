@@ -1,0 +1,4 @@
+flask
+sentence-transformers
+pinecone-client
+python-dotenv

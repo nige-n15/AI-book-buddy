@@ -1,0 +1,25 @@
+# Virtual environment
+AI-book-buddy/
+venv/
+env/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Other common files to ignore
+*.log
+*.sqlite3
+.DS_Store
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Environment variables
+.env
+
+# Pinecone and other large data files
+sentence_storage.json
